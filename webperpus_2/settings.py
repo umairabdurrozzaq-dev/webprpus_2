@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=*z&ex6oic&utau+h+yd7hsaw+pwt+@$@)7g$i^rqo^(^3)cbl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    
+]
 
 
 # Application definition
@@ -75,12 +77,8 @@ WSGI_APPLICATION = 'webperpus_2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'perpus_db',  
-        'USER': 'postgres',      
-        'PASSWORD': '2104',
-        'HOST': 'localhost',     
-        'PORT': '5432',          
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
