@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-950">Koleksi Buku</h2>
+        <p class="text-xs text-slate-400 mt-1">Kelola seluruh daftar buku perpustakaan.</p>
+    </div>
+    <a href="{% url 'tambah_buku' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow-sm">
+        <i class="fa-solid fa-plus"></i>
+        <span>Tambah Buku</span>
+    </a>
+</div>
+
+
+
+<div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                <th class="p-4">No</th>
+                <th class="p-4">Judul / Pengarang</th>
+                <th class="p-4">Kategori</th>
+                <th class="p-4">Penerbit</th>
+                <th class="p-4">Rak</th>
+                <th class="p-4">Stok</th>
+                <th class="p-4 text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+            {% for b in buku_list %}
+            <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-4 text-slate-400 text-xs">{{ forloop.counter }}</td>
+                <td class="p-4">
+                    <span class="font-semibold text-slate-900 block">{{ b.judul }}</span>
+                    <span class="text-xs text-slate-400">{{ b.pengarang }}</span>
+                </td>
+                <td class="p-4">
+                    {% if b.kategori == 'Novel' %}
+                        <span class="px-2.5 py-1 rounded-md bg-orange-100 text-orange-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% elif b.kategori == 'Pemrograman' %}
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% elif b.kategori == 'Desain' %}
+                        <span class="px-2.5 py-1 rounded-md bg-green-100 text-green-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% elif b.kategori == 'Sains' %}
+                        <span class="px-2.5 py-1 rounded-md bg-purple-100 text-purple-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% elif b.kategori == 'Sejarah' %}
+                        <span class="px-2.5 py-1 rounded-md bg-yellow-100 text-yellow-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% elif b.kategori == 'Bisnis' %}
+                        <span class="px-2.5 py-1 rounded-md bg-teal-100 text-teal-600 text-xs font-medium">{{ b.kategori }}</span>
+                    {% else %}
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 text-xs font-medium">{{ b.kategori }}</span>
+                    {% endif %}
+                </td>
+                <td class="p-4">
+                    <span class="block text-slate-800">{{ b.penerbit }}</span>
+                    <span class="text-xs text-slate-400">{{ b.tahun_terbit }}</span>
+                </td>
+                <td class="p-4">
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">{{ b.rak }}</span>
+                </td>
+                <td class="p-4">
+                    {% if b.stok == 0 %}
+                        <span class="font-semibold text-rose-600">{{ b.stok }} pcs</span>
+                        <span class="block text-xs text-rose-400">Habis</span>
+                    {% elif b.stok <= 3 %}
+                        <span class="font-semibold text-amber-500">{{ b.stok }} pcs</span>
+                        <span class="block text-xs text-amber-400">Hampir habis</span>
+                    {% else %}
+                        <span class="font-semibold text-slate-900">{{ b.stok }} pcs</span>
+                    {% endif %}
+                </td>
+                <td class="p-4">
+                    <div class="flex items-center justify-center space-x-1">
+                        <a href="{% url 'detail_buku' b.id %}" class="text-slate-500 hover:text-blue-600 p-2 rounded-lg hover:bg-blue-50 transition text-xs" title="Detail"><i class="fa-solid fa-eye"></i></a>
+                        <a href="{% url 'edit_buku' b.id %}" class="text-slate-500 hover:text-amber-600 p-2 rounded-lg hover:bg-amber-50 transition text-xs" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{% url 'hapus_buku' b.id %}" class="text-slate-500 hover:text-rose-600 p-2 rounded-lg hover:bg-rose-50 transition text-xs" title="Hapus" onclick="return confirm('Yakin ingin menghapus buku ini?')"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="p-12 text-center">
+                    <div class="flex flex-col items-center space-y-2 text-slate-400">
+                        <i class="fa-solid fa-book-open text-3xl"></i>
+                        <p class="text-sm font-medium">Belum ada data buku.</p>
+                        <p class="text-xs">Klik tombol <span class="font-semibold text-blue-500">Tambah Buku</span> untuk menambahkan.</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if buku_list %}
+<p class="text-xs text-slate-400 mt-3">Menampilkan {{ buku_list|length }} buku.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-950">Data Siswa</h2>
+        <p class="text-xs text-slate-400 mt-1">Daftar anggota aktif perpustakaan.</p>
+    </div>
+    <a href="{% url 'tambah_user' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow-sm">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>Tambah Siswa</span>
+    </a>
+</div>
+
+<div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                <th class="p-4">Nama Lengkap</th>
+                <th class="p-4">NIS</th>
+                <th class="p-4">Kelas</th>
+                <th class="p-4">Status Akun</th>
+                <th class="p-4 text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+            {% for u in user_list %}
+            <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-4 font-semibold text-slate-900">{{ u.nama }}</td>
+                <td class="p-4 font-mono text-xs text-slate-500">{{ u.nis }}</td>
+                <td class="p-4">{{ u.kelas }}</td>
+                <td class="p-4">
+                    {% if u.is_active %}
+                    <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[11px] font-semibold">Aktif</span>
+                    {% else %}
+                    <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-600 text-[11px] font-semibold">Nonaktif</span>
+                    {% endif %}
+                </td>
+                <td class="p-4 flex items-center justify-center space-x-2">
+                    <a href="{% url 'detail_user' u.id %}" class="text-slate-500 hover:text-blue-600 p-2 rounded-lg hover:bg-blue-50 transition text-xs"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{% url 'edit_user' u.id %}" class="text-slate-500 hover:text-amber-600 p-2 rounded-lg hover:bg-amber-50 transition text-xs"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{% url 'hapus_user' u.id %}" class="text-slate-500 hover:text-rose-600 p-2 rounded-lg hover:bg-rose-50 transition text-xs"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="p-8 text-center text-slate-400 text-xs">Belum ada data siswa.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

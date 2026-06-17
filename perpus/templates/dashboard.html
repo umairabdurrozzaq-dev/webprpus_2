@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-6">
+    <h2 class="text-2xl font-bold text-slate-950">Dashboard</h2>
+</div>
+
+<div class="grid grid-cols-4 gap-5 mb-8">
+    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs text-slate-400 font-medium block">Total Buku</span>
+            <span class="text-3xl font-extrabold text-slate-900 mt-1 block">{{ total_buku }}</span>
+            <span class="text-[11px] text-slate-400 mt-2 block">Keseluruhan unit buku tersedia.</span>
+        </div>
+        <div class="text-blue-500 text-xl bg-blue-50 w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-book"></i></div>
+    </div>
+    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs text-slate-400 font-medium block">Total Judul</span>
+            <span class="text-3xl font-extrabold text-slate-900 mt-1 block">{{ total_judul }}</span>
+            <span class="text-[11px] text-slate-400 mt-2 block">Jumlah koleksi judul buku.</span>
+        </div>
+        <div class="text-indigo-500 text-xl bg-indigo-50 w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-book-bookmark"></i></div>
+    </div>
+    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs text-slate-400 font-medium block">Sedang Dipinjam</span>
+            <span class="text-3xl font-extrabold text-slate-900 mt-1 block">{{ sedang_dipinjam }}</span>
+            <span class="text-[11px] text-slate-400 mt-2 block">Transaksi peminjaman aktif.</span>
+        </div>
+        <div class="text-amber-500 text-xl bg-amber-50 w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-clock"></i></div>
+    </div>
+    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs text-slate-400 font-medium block">Sudah Dikembalikan</span>
+            <span class="text-3xl font-extrabold text-slate-900 mt-1 block">{{ sudah_dikembalikan }}</span>
+            <span class="text-[11px] text-slate-400 mt-2 block">Transaksi yang sudah selesai.</span>
+        </div>
+        <div class="text-emerald-500 text-xl bg-emerald-50 w-10 h-10 rounded-xl flex items-center justify-center"><i class="fa-solid fa-circle-check"></i></div>
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 mb-1">Analisis Stok</h3>
+        <p class="text-xs text-slate-400 mb-4">Distribusi Stok Buku</p>
+        <div class="space-y-4">
+            {% for b in distribusi_stok %}
+            <div>
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                    <span>{{ b.judul }}</span>
+                    <span>{{ b.stok }}</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                    {% if b.stok >= 12 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-full"></div>
+                    {% elif b.stok == 11 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[91%]"></div>
+                    {% elif b.stok == 10 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[83%]"></div>
+                    {% elif b.stok == 9 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[75%]"></div>
+                    {% elif b.stok == 8 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[66%]"></div>
+                    {% elif b.stok == 7 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[58%]"></div>
+                    {% elif b.stok == 6 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[50%]"></div>
+                    {% elif b.stok == 5 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[41%]"></div>
+                    {% elif b.stok == 4 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[33%]"></div>
+                    {% elif b.stok == 3 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[25%]"></div>
+                    {% elif b.stok == 2 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[16%]"></div>
+                    {% elif b.stok == 1 %}
+                        <div class="bg-blue-600 h-2 rounded-full w-[8%]"></div>
+                    {% else %}
+                        <div class="bg-blue-600 h-2 rounded-full w-0"></div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 mb-1">Analisis Peminjaman</h3>
+        <p class="text-xs text-slate-400 mb-4">Distribusi Status Peminjaman Buku</p>
+        <div class="space-y-4">
+            {% for b in distribusi_peminjaman %}
+            <div class="border-b border-slate-50 pb-3 last:border-none last:pb-0">
+                <div class="text-xs font-bold text-slate-800 mb-2">{{ b.judul }}</div>
+                
+                <div class="space-y-2">
+                    <div>
+                        <div class="flex justify-between text-[11px] font-medium text-slate-500 mb-0.5">
+                            <span>Sedang Dipinjam</span>
+                            <span class="text-amber-600 font-semibold">{{ b.sedang_dipinjam }} unit</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            {% if b.sedang_dipinjam >= 12 %}<div class="bg-amber-500 h-1.5 rounded-full w-full"></div>
+                            {% elif b.sedang_dipinjam == 11 %}<div class="bg-amber-500 h-1.5 rounded-full w-[91%]"></div>
+                            {% elif b.sedang_dipinjam == 10 %}<div class="bg-amber-500 h-1.5 rounded-full w-[83%]"></div>
+                            {% elif b.sedang_dipinjam == 9 %}<div class="bg-amber-500 h-1.5 rounded-full w-[75%]"></div>
+                            {% elif b.sedang_dipinjam == 8 %}<div class="bg-amber-500 h-1.5 rounded-full w-[66%]"></div>
+                            {% elif b.sedang_dipinjam == 7 %}<div class="bg-amber-500 h-1.5 rounded-full w-[58%]"></div>
+                            {% elif b.sedang_dipinjam == 6 %}<div class="bg-amber-500 h-1.5 rounded-full w-[50%]"></div>
+                            {% elif b.sedang_dipinjam == 5 %}<div class="bg-amber-500 h-1.5 rounded-full w-[41%]"></div>
+                            {% elif b.sedang_dipinjam == 4 %}<div class="bg-amber-500 h-1.5 rounded-full w-[33%]"></div>
+                            {% elif b.sedang_dipinjam == 3 %}<div class="bg-amber-500 h-1.5 rounded-full w-[25%]"></div>
+                            {% elif b.sedang_dipinjam == 2 %}<div class="bg-amber-500 h-1.5 rounded-full w-[16%]"></div>
+                            {% elif b.sedang_dipinjam == 1 %}<div class="bg-amber-500 h-1.5 rounded-full w-[8%]"></div>
+                            {% else %}<div class="bg-amber-500 h-1.5 rounded-full w-0"></div>{% endif %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-[11px] font-medium text-slate-500 mb-0.5">
+                            <span>Sudah Dikembalikan</span>
+                            <span class="text-emerald-600 font-semibold">{{ b.sudah_dikembalikan }} unit</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            {% if b.sudah_dikembalikan >= 12 %}<div class="bg-emerald-500 h-1.5 rounded-full w-full"></div>
+                            {% elif b.sudah_dikembalikan == 11 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[91%]"></div>
+                            {% elif b.sudah_dikembalikan == 10 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[83%]"></div>
+                            {% elif b.sudah_dikembalikan == 9 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[75%]"></div>
+                            {% elif b.sudah_dikembalikan == 8 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[66%]"></div>
+                            {% elif b.sudah_dikembalikan == 7 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[58%]"></div>
+                            {% elif b.sudah_dikembalikan == 6 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[50%]"></div>
+                            {% elif b.sudah_dikembalikan == 5 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[41%]"></div>
+                            {% elif b.sudah_dikembalikan == 4 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[33%]"></div>
+                            {% elif b.sudah_dikembalikan == 3 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[25%]"></div>
+                            {% elif b.sudah_dikembalikan == 2 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[16%]"></div>
+                            {% elif b.sudah_dikembalikan == 1 %}<div class="bg-emerald-500 h-1.5 rounded-full w-[8%]"></div>
+                            {% else %}<div class="bg-emerald-500 h-1.5 rounded-full w-0"></div>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-xs text-slate-400 italic text-center py-4">Belum ada riwayat transaksi peminjaman.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

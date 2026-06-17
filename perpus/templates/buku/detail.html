@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-6">
+    <a href="{% url 'list_buku' %}" class="text-xs text-slate-400 hover:text-blue-600 transition flex items-center space-x-1 mb-2">
+        <i class="fa-solid fa-arrow-left"></i> <span>Kembali ke daftar</span>
+    </a>
+    <h2 class="text-2xl font-bold text-slate-950">Detail Informasi Buku</h2>
+</div>
+
+<div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm max-w-2xl">
+    <div class="flex items-start space-x-6">
+        <div class="bg-slate-100 text-slate-400 w-32 h-44 rounded-xl flex items-center justify-center border border-slate-200/60 shadow-inner"><i class="fa-solid fa-book text-4xl"></i></div>
+        <div class="flex-1 space-y-4">
+            <div>
+                <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider">{{ buku.kategori }}</span>
+                <h3 class="text-xl font-bold text-slate-900 mt-1">{{ buku.judul }}</h3>
+                <p class="text-sm text-slate-500 font-medium mt-0.5">Karya: {{ buku.pengarang }}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-y-2 gap-x-4 border-t border-b border-slate-50 py-3 text-xs">
+                <div><span class="text-slate-400 block">Penerbit:</span> <span class="font-semibold text-slate-700">{{ buku.penerbit }}</span></div>
+                <div><span class="text-slate-400 block">Tahun Terbit:</span> <span class="font-semibold text-slate-700">{{ buku.tahun_terbit }}</span></div>
+                <div><span class="text-slate-400 block">Lokasi Rak:</span> <span class="font-semibold text-slate-700">RAK-{{ buku.rak }}</span></div>
+                <div><span class="text-slate-400 block">Sisa Stok:</span> <span class="font-bold text-blue-600">{{ buku.stok }} unit</span></div>
+                <div class="col-span-2"><span class="text-slate-400 block">ISBN:</span> <span class="font-mono text-slate-700">{{ buku.isbn|default:"-" }}</span></div>
+            </div>
+            <div>
+                <span class="text-xs text-slate-400 block mb-1">Sinopsis / Deskripsi:</span>
+                <p class="text-xs text-slate-600 leading-relaxed">{{ buku.deskripsi|default:"Tidak ada deskripsi singkat." }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
